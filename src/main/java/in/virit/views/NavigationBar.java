@@ -13,6 +13,7 @@ import com.vaadin.flow.component.popover.Popover;
 import com.vaadin.flow.component.popover.PopoverPosition;
 import com.vaadin.flow.component.popover.PopoverVariant;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.theme.lumo.LumoUtility;
 
 @Route
 public class NavigationBar extends HorizontalLayout {
@@ -21,7 +22,11 @@ public class NavigationBar extends HorizontalLayout {
 
     public NavigationBar() {
         add(new AvatarMenu(person));
-        addClassName("navigationBar");
+
+        setJustifyContentMode(JustifyContentMode.END);
+        setPadding(true);
+        addClassName(LumoUtility.Padding.SMALL);
+        getStyle().setBackgroundColor("var(--lumo-contrast-5pct)");
     }
 
     private static class AvatarMenu extends Button {
@@ -33,6 +38,7 @@ public class NavigationBar extends HorizontalLayout {
                     new MenuItems()
             ).setTarget(this);
 
+            getIcon().getStyle().setCursor("pointer");
             addThemeVariants(ButtonVariant.LUMO_ICON, ButtonVariant.LUMO_TERTIARY_INLINE);
         }
     }
@@ -56,7 +62,9 @@ public class NavigationBar extends HorizontalLayout {
 
             setSpacing(false);
             setPadding(false);
-            addClassName("userMenuLinks");
+
+            setAlignItems(Alignment.STRETCH);
+            getStyle().setPaddingBottom("var(--lumo-space-xs)");
         }
 
     }
@@ -66,6 +74,9 @@ public class NavigationBar extends HorizontalLayout {
             super("#", text);
             // TODO Make a feature requests, if these roles must be set for Anchor's there should be an actual API for it
             getElement().setAttribute("role", "menuitem");
+            getStyle().setPadding("var(--lumo-space-xs) var(--lumo-space-m)");
+            getStyle().setColor("var(--lumo-body-text-color)");
+            getStyle().setTextDecoration("none");
         }
     }
 
@@ -75,8 +86,12 @@ public class NavigationBar extends HorizontalLayout {
             Div nickName = new Div(person.account());
             add(new LargePersonAvatar(person), new Div(fullName, nickName));
 
-            addClassName("userMenuHeader");
-            setSpacing(false);
+            fullName.getStyle().setFontWeight("bold");
+            nickName.getStyle().setFontSize("small").setColor("var(--lumo-secondary-text-color)");
+
+            getStyle().setBackgroundColor("var(--lumo-contrast-5pct)");
+            setPadding(true);
+            setSpacing(true);
         }
     }
 
@@ -85,6 +100,8 @@ public class NavigationBar extends HorizontalLayout {
             super(person.fullName());
             setImage(person.pictureUrl());
             getElement().setAttribute("tabindex", "-1");
+
+            getStyle().setBorderRadius("50%");
         }
     }
 
