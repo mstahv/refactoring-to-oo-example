@@ -1,5 +1,6 @@
 package in.virit.views;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.avatar.AvatarVariant;
 import com.vaadin.flow.component.button.Button;
@@ -11,7 +12,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.popover.Popover;
 import com.vaadin.flow.component.popover.PopoverPosition;
 import com.vaadin.flow.component.popover.PopoverVariant;
-import com.vaadin.flow.dom.Style;
 import com.vaadin.flow.router.Route;
 
 @Route
@@ -28,21 +28,23 @@ public class NavigationBar extends HorizontalLayout {
         public AvatarMenu(Person person) {
             super(new PersonAvatar(person));
 
-            Popover popover = new Popover(
+            new MenuPopover(
                     new UserInfo(person),
                     new MenuItems()
-            );
-            popover.setTarget(this);
-            popover.setModal(true);
-
-            // a11y magic
-            popover.setOverlayRole("menu");
-            popover.setAriaLabel("User menu");
+            ).setTarget(this);
 
             addThemeVariants(ButtonVariant.LUMO_ICON, ButtonVariant.LUMO_TERTIARY_INLINE);
-            popover.setPosition(PopoverPosition.BOTTOM_END);
-            popover.addThemeVariants(PopoverVariant.LUMO_NO_PADDING);
+        }
+    }
 
+    public static class MenuPopover extends Popover {
+        public MenuPopover(Component... components) {
+            super(components);
+            setModal(true);
+            setOverlayRole("menu");
+            setAriaLabel("User menu");
+            setPosition(PopoverPosition.BOTTOM_END);
+            addThemeVariants(PopoverVariant.LUMO_NO_PADDING);
         }
     }
 
