@@ -22,18 +22,7 @@ public class PopoverUserMenu extends HorizontalLayout {
         setSpacing(false);
         getStyle().set("background", "var(--lumo-contrast-5pct)");
 
-        Avatar avatar = new Avatar(person.fullName());
-        avatar.setImage(person.pictureUrl());
-        avatar.getStyle().set("display", "block");
-        avatar.getStyle().set("cursor", "pointer");
-        avatar.getElement().setAttribute("tabindex", "-1");
-
-        Button button = new Button(avatar);
-        button.addThemeVariants(ButtonVariant.LUMO_ICON,
-                ButtonVariant.LUMO_TERTIARY_INLINE);
-        button.getStyle().set("margin", "var(--lumo-space-s)");
-        button.getStyle().set("margin-inline-start", "auto");
-        button.getStyle().set("border-radius", "50%");
+        Button button = new AvatarButton(person);
 
         Popover popover = new Popover();
         popover.setModal(true);
@@ -47,11 +36,6 @@ public class PopoverUserMenu extends HorizontalLayout {
         userInfo.addClassName("userMenuHeader");
         userInfo.setSpacing(false);
 
-        Avatar userAvatar = new Avatar(person.fullName());
-        userAvatar.setImage(person.pictureUrl());
-        userAvatar.getElement().setAttribute("tabindex", "-1");
-        userAvatar.addThemeVariants(AvatarVariant.LUMO_LARGE);
-
         VerticalLayout nameLayout = new VerticalLayout();
         nameLayout.setSpacing(false);
         nameLayout.setPadding(false);
@@ -63,7 +47,7 @@ public class PopoverUserMenu extends HorizontalLayout {
         nickName.addClassName("userMenuNickname");
         nameLayout.add(fullName, nickName);
 
-        userInfo.add(userAvatar, nameLayout);
+        userInfo.add(new LargePersonAvatar(person), nameLayout);
 
         VerticalLayout linksLayout = new VerticalLayout();
         linksLayout.setSpacing(false);
@@ -86,4 +70,31 @@ public class PopoverUserMenu extends HorizontalLayout {
         add(button, popover);
     }
 
+    private static class AvatarButton extends Button {
+        public AvatarButton(Person person) {
+            super(new PersonAvatar(person));
+            addThemeVariants(ButtonVariant.LUMO_ICON,
+                    ButtonVariant.LUMO_TERTIARY_INLINE);
+            getStyle().set("margin", "var(--lumo-space-s)");
+            getStyle().set("margin-inline-start", "auto");
+            getStyle().set("border-radius", "50%");
+            getIcon().getStyle().set("cursor", "pointer");
+        }
+    }
+
+    private static class PersonAvatar extends Avatar {
+        public PersonAvatar(Person person) {
+            super(person.fullName());
+            setImage(person.pictureUrl());
+            getStyle().set("display", "block");
+            getElement().setAttribute("tabindex", "-1");
+        }
+    }
+
+    private static class LargePersonAvatar extends PersonAvatar {
+        public LargePersonAvatar(Person person) {
+            super(person);
+            addThemeVariants(AvatarVariant.LUMO_LARGE);
+        }
+    }
 }
