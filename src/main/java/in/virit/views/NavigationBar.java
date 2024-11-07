@@ -21,9 +21,7 @@ public class NavigationBar extends HorizontalLayout {
 
     public NavigationBar() {
         add(new AvatarMenu(person));
-
-        setSpacing(false);
-        getStyle().setBackground("var(--lumo-contrast-5pct)");
+        addClassName("navigationBar");
     }
 
     private static class AvatarMenu extends Button {
@@ -37,15 +35,11 @@ public class NavigationBar extends HorizontalLayout {
             popover.setTarget(this);
             popover.setModal(true);
 
+            // a11y magic
             popover.setOverlayRole("menu");
             popover.setAriaLabel("User menu");
 
             addThemeVariants(ButtonVariant.LUMO_ICON, ButtonVariant.LUMO_TERTIARY_INLINE);
-            getStyle().setMargin("var(--lumo-space-s)");
-            getStyle().setMarginInlineStart("auto");
-            getStyle().setBorderRadius("50%");
-            getIcon().getStyle().setCursor("pointer");
-
             popover.setPosition(PopoverPosition.BOTTOM_END);
             popover.addThemeVariants(PopoverVariant.LUMO_NO_PADDING);
 
@@ -54,19 +48,22 @@ public class NavigationBar extends HorizontalLayout {
 
     public static class MenuItems extends VerticalLayout {
         public MenuItems() {
-            addItem("User profile");
-            addItem("Preferences");
-            addItem("Sign out");
+            add(new MenuItem("User profile"));
+            add(new MenuItem("Preferences"));
+            add(new MenuItem("Sign out"));
 
             setSpacing(false);
             setPadding(false);
             addClassName("userMenuLinks");
         }
 
-        public void addItem(String text) {
-            Anchor link = new Anchor("#", text);
-            link.getElement().setAttribute("role", "menuitem");
-            add(link);
+    }
+
+    public static class MenuItem extends Anchor {
+        public MenuItem(String text) {
+            super("#", text);
+            // TODO Make a feature requests, if these roles must be set for Anchor's there should be an actual API for it
+            getElement().setAttribute("role", "menuitem");
         }
     }
 
@@ -78,8 +75,6 @@ public class NavigationBar extends HorizontalLayout {
 
             addClassName("userMenuHeader");
             setSpacing(false);
-            fullName.getStyle().setFontWeight("bold");
-            nickName.addClassName("userMenuNickname");
         }
     }
 
@@ -87,8 +82,6 @@ public class NavigationBar extends HorizontalLayout {
         public PersonAvatar(Person person) {
             super(person.fullName());
             setImage(person.pictureUrl());
-
-            getStyle().setDisplay(Style.Display.BLOCK);
             getElement().setAttribute("tabindex", "-1");
         }
     }
