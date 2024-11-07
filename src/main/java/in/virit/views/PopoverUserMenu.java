@@ -22,7 +22,7 @@ public class PopoverUserMenu extends HorizontalLayout {
         setSpacing(false);
         getStyle().set("background", "var(--lumo-contrast-5pct)");
 
-        String name = person.firstName() + " " + person.lastName();
+        String name = person.fullName();
         String pictureUrl = person.pictureUrl();
 
         Avatar avatar = new Avatar(name);
