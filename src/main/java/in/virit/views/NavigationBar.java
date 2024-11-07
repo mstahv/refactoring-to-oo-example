@@ -35,49 +35,51 @@ public class NavigationBar extends HorizontalLayout {
 
             addThemeVariants(ButtonVariant.LUMO_ICON, ButtonVariant.LUMO_TERTIARY_INLINE);
         }
-    }
 
-    public static class MenuPopover extends Popover {
-        public MenuPopover(Component... components) {
-            super(components);
-            setModal(true);
-            setOverlayRole("menu");
-            setAriaLabel("User menu");
-            setPosition(PopoverPosition.BOTTOM_END);
-            addThemeVariants(PopoverVariant.LUMO_NO_PADDING);
-        }
-    }
+        public static class MenuPopover extends Popover {
+            public MenuPopover(Component... components) {
+                super(components);
+                setModal(true);
+                setOverlayRole("menu");
+                setAriaLabel("User menu");
+                setPosition(PopoverPosition.BOTTOM_END);
+                addThemeVariants(PopoverVariant.LUMO_NO_PADDING);
+            }
 
-    public static class MenuItems extends VerticalLayout {
-        public MenuItems() {
-            add(new MenuItem("User profile"));
-            add(new MenuItem("Preferences"));
-            add(new MenuItem("Sign out"));
-
-            setSpacing(false);
-            setPadding(false);
-            addClassName("userMenuLinks");
         }
 
-    }
+        public static class MenuItems extends VerticalLayout {
+            public MenuItems() {
+                add(new MenuItem("User profile"));
+                add(new MenuItem("Preferences"));
+                add(new MenuItem("Sign out"));
 
-    public static class MenuItem extends Anchor {
-        public MenuItem(String text) {
-            super("#", text);
-            // TODO Make a feature requests, if these roles must be set for Anchor's there should be an actual API for it
-            getElement().setAttribute("role", "menuitem");
+                setSpacing(false);
+                setPadding(false);
+                addClassName("userMenuLinks");
+            }
+
+
+            public static class MenuItem extends Anchor {
+                public MenuItem(String text) {
+                    super("#", text);
+                    // TODO Make a feature requests, if these roles must be set for Anchor's there should be an actual API for it
+                    getElement().setAttribute("role", "menuitem");
+                }
+            }
         }
-    }
 
-    public static class UserInfo extends HorizontalLayout {
-        public UserInfo(Person person) {
-            Div fullName = new Div(person.fullName());
-            Div nickName = new Div(person.account());
-            add(new LargePersonAvatar(person), new Div(fullName, nickName));
+        public static class UserInfo extends HorizontalLayout {
+            public UserInfo(Person person) {
+                Div fullName = new Div(person.fullName());
+                Div nickName = new Div(person.account());
+                add(new LargePersonAvatar(person), new Div(fullName, nickName));
 
-            addClassName("userMenuHeader");
-            setSpacing(false);
+                addClassName("userMenuHeader");
+                setSpacing(false);
+            }
         }
+
     }
 
     private static class PersonAvatar extends Avatar {
