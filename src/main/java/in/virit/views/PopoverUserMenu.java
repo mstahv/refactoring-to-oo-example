@@ -1,5 +1,6 @@
 package in.virit.views;
 
+import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.avatar.AvatarVariant;
 import com.vaadin.flow.component.button.Button;
@@ -32,22 +33,7 @@ public class PopoverUserMenu extends HorizontalLayout {
         popover.setPosition(PopoverPosition.BOTTOM_END);
         popover.addThemeVariants(PopoverVariant.LUMO_NO_PADDING);
 
-        HorizontalLayout userInfo = new HorizontalLayout();
-        userInfo.addClassName("userMenuHeader");
-        userInfo.setSpacing(false);
-
-        VerticalLayout nameLayout = new VerticalLayout();
-        nameLayout.setSpacing(false);
-        nameLayout.setPadding(false);
-
-        Div fullName = new Div(person.fullName());
-        fullName.getStyle().set("font-weight", "bold");
-        Div nickName = new Div("@" + person.firstName().toLowerCase()
-                + person.lastName().toLowerCase());
-        nickName.addClassName("userMenuNickname");
-        nameLayout.add(fullName, nickName);
-
-        userInfo.add(new LargePersonAvatar(person), nameLayout);
+        HorizontalLayout userInfo = new UserInfo(person);
 
         VerticalLayout linksLayout = new VerticalLayout();
         linksLayout.setSpacing(false);
@@ -68,6 +54,27 @@ public class PopoverUserMenu extends HorizontalLayout {
         popover.add(userInfo, linksLayout);
 
         add(button, popover);
+    }
+
+    public static class UserInfo extends HorizontalLayout {
+        public UserInfo(Person person) {
+            addClassName("userMenuHeader");
+            setSpacing(false);
+
+            Div fullName = new Div(person.fullName());
+            fullName.getStyle().set("font-weight", "bold");
+            Div nickName = new Div(person.account());
+            nickName.addClassName("userMenuNickname");
+
+            add(
+                    new LargePersonAvatar(person),
+                    new Div(
+                        fullName,
+                        nickName
+                    )
+            );
+
+        }
     }
 
     private static class AvatarButton extends Button {
