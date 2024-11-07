@@ -35,25 +35,28 @@ public class PopoverUserMenu extends HorizontalLayout {
 
         HorizontalLayout userInfo = new UserInfo(person);
 
-        VerticalLayout linksLayout = new VerticalLayout();
-        linksLayout.setSpacing(false);
-        linksLayout.setPadding(false);
-        linksLayout.addClassName("userMenuLinks");
-
-        Anchor profile = new Anchor("#", "User profile");
-        profile.getElement().setAttribute("role", "menuitem");
-
-        Anchor preferences = new Anchor("#", "Preferences");
-        preferences.getElement().setAttribute("role", "menuitem");
-
-        Anchor signOut = new Anchor("#", "Sign out");
-        signOut.getElement().setAttribute("role", "menuitem");
-
-        linksLayout.add(profile, preferences, signOut);
-
-        popover.add(userInfo, linksLayout);
+        popover.add(userInfo, new MenuItems());
 
         add(button, popover);
+    }
+
+    public static class MenuItems extends VerticalLayout {
+        public MenuItems() {
+            setSpacing(false);
+            setPadding(false);
+            addClassName("userMenuLinks");
+
+            addItem("User profile");
+            addItem("Preferences");
+            addItem("Sign out");
+
+        }
+
+        public void addItem(String text) {
+            Anchor link = new Anchor("#", text);
+            link.getElement().setAttribute("role", "menuitem");
+            add(link);
+        }
     }
 
     public static class UserInfo extends HorizontalLayout {
