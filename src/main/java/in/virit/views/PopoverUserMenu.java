@@ -22,11 +22,8 @@ public class PopoverUserMenu extends HorizontalLayout {
         setSpacing(false);
         getStyle().set("background", "var(--lumo-contrast-5pct)");
 
-        String name = person.fullName();
-        String pictureUrl = person.pictureUrl();
-
-        Avatar avatar = new Avatar(name);
-        avatar.setImage(pictureUrl);
+        Avatar avatar = new Avatar(person.fullName());
+        avatar.setImage(person.pictureUrl());
         avatar.getStyle().set("display", "block");
         avatar.getStyle().set("cursor", "pointer");
         avatar.getElement().setAttribute("tabindex", "-1");
@@ -50,8 +47,8 @@ public class PopoverUserMenu extends HorizontalLayout {
         userInfo.addClassName("userMenuHeader");
         userInfo.setSpacing(false);
 
-        Avatar userAvatar = new Avatar(name);
-        userAvatar.setImage(pictureUrl);
+        Avatar userAvatar = new Avatar(person.fullName());
+        userAvatar.setImage(person.pictureUrl());
         userAvatar.getElement().setAttribute("tabindex", "-1");
         userAvatar.addThemeVariants(AvatarVariant.LUMO_LARGE);
 
@@ -59,7 +56,7 @@ public class PopoverUserMenu extends HorizontalLayout {
         nameLayout.setSpacing(false);
         nameLayout.setPadding(false);
 
-        Div fullName = new Div(name);
+        Div fullName = new Div(person.fullName());
         fullName.getStyle().set("font-weight", "bold");
         Div nickName = new Div("@" + person.firstName().toLowerCase()
                 + person.lastName().toLowerCase());
